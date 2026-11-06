@@ -79,7 +79,7 @@ a.map{display:inline-block;margin-top:10px;background:#a67c2c;color:#fff;text-de
 #rig .pan h2{color:#7a1f2b;font-size:38px;margin:4px 0}
 #rig .pan .ph{width:32%}#rig .pan .dt{font-size:17px}
 .rc{border:1.5px solid #7a1f2b;border-radius:10px;padding:4px 10px;margin:6px 0}
-#tools{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 46px);display:flex;gap:14px;z-index:30}
+#tools{position:static;left:auto;top:auto;transform:none;display:flex;justify-content:center;gap:14px;margin:12px auto 4px;z-index:30}
 #tools button{width:44px;height:44px;border-radius:50%;border:1px solid #c9a24b;background:rgba(18,12,16,.55);color:#fff;font-size:20px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:0;cursor:pointer}
 #toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(18,12,16,.85);border:1px solid #c9a24b;color:#fff;padding:8px 16px;border-radius:20px;font-size:16px;z-index:40;display:none}
 #gal{position:fixed;inset:0;background:#120c10;z-index:50;display:none;flex-direction:column}
@@ -94,7 +94,7 @@ a.map{display:inline-block;margin-top:10px;background:#a67c2c;color:#fff;text-de
 #lpv,#lnx{position:absolute;top:50%;transform:translateY(-50%);font-size:44px!important;z-index:2;background:rgba(0,0,0,.35)!important;border-radius:50%;width:48px;height:60px}
 #lpv{left:6px}#lnx{right:6px}#lc{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:#e2c176;font-size:16px}
 #rig .pan .ph{position:relative;overflow:hidden}#rig .pan .ph img.sl{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.3s ease}#rig .pan .ph img.sl.on{opacity:1}
-#rig .pan .ph{width:44%}#rig .pan h2{font-size:34px;margin:2px 0}#rig .pan .face{padding:12px 12px}#rig .pan .cdc{margin:2px 0}.rc{margin:4px 0}
+#rig .pan .ph{width:58%}#rig .pan h2{font-size:36px;margin:3px 0}#rig .pan .face{padding:12px 12px}#rig .pan .cdc{margin:2px 0}.rc{margin:4px 0}
 #ui #gl{background:#a67c2c;border-color:#e2c176;padding:10px 24px;font-size:17px;margin:0 0 10px;letter-spacing:.04em}
 </style><script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script></head><body>
 <div id="bg"></div><video id="cam" playsinline muted autoplay></video><div id="shade"></div>
@@ -250,10 +250,10 @@ function scan(){var found=false,n=performance.now();
  if(!found){if(!shown){if(n-t0>5000)place(quad(innerWidth/2,innerHeight/2,innerWidth*.12,0),1,'def')}
   else if(n-seen>1200){if(n-t0>5000)place(quad(innerWidth/2,innerHeight/2,innerWidth*.12,0),1,'def');else{hide();pts=null;seen=0}}}
  setTimeout(scan,45)}
-/* 3D viewer: card floats centred on screen; drag or tilt the phone to look around */
+/* 3D viewer: stable centred card with fixed perspective; no phone-tilt response */
 var rx=0,ry=0,tx=0,ty=0,dr=null,vs=1;
 trk.style.perspective='1500px';trk.style.perspectiveOrigin='50% 46%';
-(function upd(t){rx+=(tx-rx)*.1;ry+=(ty-ry)*.1;vs=Math.min(innerWidth*.94/CW,innerHeight*.82/CH);rig.style.transform='translate3d('+innerWidth/2+'px,'+innerHeight*.46+'px,0) scale('+vs+') rotateX('+(rx+Math.sin(t/1900)*2)+'deg) rotateY('+(ry+Math.sin(t/2300)*4)+'deg) translate3d('+(-CW/2)+'px,'+(-CH/2)+'px,0)';requestAnimationFrame(upd)})(0);
+(function upd(t){vs=Math.min(innerWidth*.94/CW,innerHeight*.82/CH);rig.style.transform='translate3d('+innerWidth/2+'px,'+innerHeight*.46+'px,0) scale('+vs+') rotateX(3deg) rotateY(-2deg) translate3d('+(-CW/2)+'px,'+(-CH/2)+'px,0)';requestAnimationFrame(upd)})(0);
 addEventListener('pointerdown',function(e){dr=[e.clientX,e.clientY,tx,ty]});
 addEventListener('pointermove',function(e){if(dr){ty=Math.max(-40,Math.min(40,dr[3]+(e.clientX-dr[0])*.3));tx=Math.max(-30,Math.min(30,dr[2]-(e.clientY-dr[1])*.3))}});
 addEventListener('pointerup',function(){dr=null});
@@ -276,7 +276,7 @@ $('gx').onclick=function(){$('gal').style.display='none'};$('lx').onclick=functi
 $('lpv').onclick=function(){openLb(gi-1)};$('lnx').onclick=function(){openLb(gi+1)};
 var sx0=0;$('lb').addEventListener('touchstart',function(e){sx0=e.touches[0].clientX},{passive:true});$('lb').addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-sx0;if(Math.abs(d)>50)openLb(gi+(d<0?1:-1))});
 addEventListener('keydown',function(e){if($('lb').style.display=='flex'){if(e.key=='ArrowRight')openLb(gi+1);if(e.key=='ArrowLeft')openLb(gi-1);if(e.key=='Escape')$('lb').style.display='none'}else if(e.key=='Escape')$('gal').style.display='none'});
-show();$('ui').classList.add('go');$('loc').style.display='inline-block';
+show();$('ui').classList.add('go');$('loc').style.display='inline-block';$('ui').appendChild($('tools'));
 /* solid gold card edge for real 3D thickness */
 (function(){var sl=document.querySelector('.slab');for(var q=1;q<=7;q++){var e=sl.cloneNode();e.style.transform='translateZ('+(-5+q*1.3)+'px) scale(1.012)';e.style.boxShadow='none';card.insertBefore(e,sl.nextSibling)}})();
 /* Play the uploaded wedding song from the repository root */
