@@ -298,7 +298,7 @@ $('lg').onclick=function(e){e.stopPropagation();lang^=1;setLang(lang);tick()};
 for(var q=0;q<10;q++){var e=mk('pt');e.textContent=['🌸','✨','🌼'][q%3];e.style.left=(20+Math.random()*(CW-40))+'px';e.style.top=(20+Math.random()*(CH-40))+'px';PT.push(e)}
 tick();
 function show(){if(!shown){shown=1;oT0=performance.now()}trk.style.display='block';$('scan').style.display='none';$('loc').style.display='inline-block'}
-function hide(){shown=0;$('sp').textContent='Move back over the QR on the card';trk.style.display='none';$('scan').style.display='flex';$('loc').style.display='none'}
+function hide(){show();}
 function pose(h){var vw=vid.videoWidth||innerWidth,vh=vid.videoHeight||innerHeight,sc=Math.max(innerWidth/vw,innerHeight/vh),f=.8*Math.max(vw,vh)*sc,cx=innerWidth/2,cy=innerHeight/2,M=[[h[0],h[1],h[2]],[h[3],h[4],h[5]],[h[6],h[7],1]];
  function col(j){return[(M[0][j]-cx*M[2][j])/f,(M[1][j]-cy*M[2][j])/f,M[2][j]]}
  var b1=col(0),b2=col(1),b3=col(2),nm=function(v){return Math.hypot(v[0],v[1],v[2])},l=2/(nm(b1)+nm(b2)),m=function(v){return v.map(function(x){return x*l})},r1=m(b1),r2=m(b2),t=m(b3),
@@ -394,7 +394,7 @@ $('gx').onclick=function(){$('gal').style.display='none'};$('lx').onclick=functi
 $('lpv').onclick=function(){openLb(gi-1)};$('lnx').onclick=function(){openLb(gi+1)};
 var sx0=0;$('lb').addEventListener('touchstart',function(e){sx0=e.touches[0].clientX},{passive:true});$('lb').addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-sx0;if(Math.abs(d)>50)openLb(gi+(d<0?1:-1))});
 addEventListener('keydown',function(e){if($('lb').style.display=='flex'){if(e.key=='ArrowRight')openLb(gi+1);if(e.key=='ArrowLeft')openLb(gi-1);if(e.key=='Escape')$('lb').style.display='none'}else if(e.key=='Escape')$('gal').style.display='none'});
-show();$('ui').classList.add('go');$('loc').style.display='inline-block';$('ui').appendChild($('tools'));
+show();$('ui').classList.add('go');$('loc').style.display='inline-block';$('ui').appendChild($('tools'));$('scan').style.display='none';
 /* solid gold card edge for real 3D thickness */
 (function(){var sl=document.querySelector('.slab');for(var q=1;q<=7;q++){var e=sl.cloneNode();e.style.transform='translateZ('+(-5+q*1.3)+'px) scale(1.012)';e.style.boxShadow='none';card.insertBefore(e,sl.nextSibling)}})();
 /* Play the uploaded wedding song from the repository root */
