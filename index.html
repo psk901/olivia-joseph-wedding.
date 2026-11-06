@@ -230,11 +230,6 @@ try{if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
 var flipT=0,flipC=0,ox=0,oy=0,tx=0,ty=0,drag=false,sx=0,sy=0,moved=false,gx=0,gy=0;
 function play(){intro.className='';stage.className='';ui.className='';void intro.offsetWidth;intro.className='go';stage.className='go';setTimeout(function(){ui.className='go'},8200)}
 play();
-$('flip').onclick=function(e){e.stopPropagation();flipT=flipT?0:180;pan.style.transform='translateZ(-3px) rotateY('+flipT+'deg)'};
-document.addEventListener('pointerdown',function(e){if(e.target.closest('#ui,a'))return;drag=true;moved=false;sx=e.clientX;sy=e.clientY;
- if(window.DeviceOrientationEvent&&DeviceOrientationEvent.requestPermission){try{DeviceOrientationEvent.requestPermission()}catch(x){}}});
-document.addEventListener('pointermove',function(e){if(!drag)return;var dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>6)moved=true;tx=Math.max(-70,Math.min(70,dx*.4));ty=Math.max(-30,Math.min(30,-dy*.25))});
-document.addEventListener('pointerup',function(){if(drag&&!moved){flipT=flipT?0:180;pan.style.transform='translateZ(-3px) rotateY('+flipT+'deg)'}drag=false;tx=0;ty=0});
 window.addEventListener('deviceorientation',function(e){if(e.gamma!=null){gx=Math.max(-25,Math.min(25,e.gamma))*.6;gy=Math.max(-25,Math.min(25,(e.beta||45)-45))*-.4}});
 /* faster scanner: use the phone's built-in QR detector when it has one, else the jsQR library */
 (function(){var lib=window.jsQR,bd=null,last=null,busy=false;
