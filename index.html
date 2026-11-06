@@ -215,6 +215,14 @@ html,body{overflow:hidden;touch-action:pan-y}
 #ui #turn{order:5}
 #ui #tools{order:6}
 #ui #flip,#ui #rp,#ui #rep,#ui #detailsBtn{display:none!important}
+
+/* FINAL DIRECT-OPEN OVERRIDE: no camera/QR intro overlay */
+#stage{display:flex!important;opacity:1!important;visibility:visible!important;z-index:6!important}
+#stage.go{animation:none!important;opacity:1!important;transform:none!important}
+#intro{display:none!important}
+#scan{display:none!important;visibility:hidden!important;opacity:0!important}
+#trk{display:block!important}
+#ui{z-index:20!important}
 </style><script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script></head><body>
 <div id="bg"></div><video id="cam" playsinline muted autoplay></video><div id="shade"></div>
 
