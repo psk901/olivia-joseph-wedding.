@@ -361,7 +361,7 @@ var t0=performance.now();
      badge=$('vc');
  function display(v){
    if(!badge)return;
-   badge.textContent=Number(v||0).toLocaleString();
+   badge.textContent=Number(v||0).toLocaleString()+' 👀';
    badge.style.display='block';
  }
  fetch(BASE+'hit/'+KEY,{cache:'no-store'})
