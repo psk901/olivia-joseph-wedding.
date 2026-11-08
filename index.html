@@ -354,20 +354,25 @@ var t0=performance.now();
  var ry=Math.sin(s*.8)*10+ox+gx,rx=Math.cos(s*.6)*4+oy+gy,fy=Math.sin(s*1.1)*8;
  card.style.transform='translateY('+fy+'px) rotateX('+rx+'deg) rotateY('+(ry+flipC)+'deg)';trk.style.setProperty('--px',(Math.sin(s*.8)*.6+gx/15+ox/40).toFixed(3));trk.style.setProperty('--py',(Math.cos(s*.6)*.4+gy/15+oy/20).toFixed(3));requestAnimationFrame(loop)})(t0);
 
-/* view counter: counts once per device; add ?stats to the invitation URL to see the total */
+/* Public shared view counter: every invitation opening adds one view. */
 (function(){
- var NS='joseph-oliva-wedding-2026',
-     KEY='views',
-     URL='https://api.counterapi.dev/v1/'+NS+'/'+KEY,
-     seen=false;
- try{seen=localStorage.getItem('viewed')}catch(e){}
- fetch(URL+(seen?'':'/up'))
-  .then(function(r){return r.json()})
-  .then(function(d){
-    try{localStorage.setItem('viewed','1')}catch(e){}
-    var b=$('vc');b.textContent='👁 '+d.count+' views';b.style.display='block';
-  })
-  ['catch'](function(){});
+ var KEY='olivia_joseph_wedding_2026_psk901_public_total_views_7f31',
+     BASE='https://countapi.mileshilliard.com/api/v1/',
+     badge=$('vc');
+ function display(v){
+   if(!badge)return;
+   badge.textContent='👁 '+Number(v||0).toLocaleString()+' total views';
+   badge.style.display='block';
+ }
+ fetch(BASE+'hit/'+KEY,{cache:'no-store'})
+  .then(function(r){if(!r.ok)throw new Error('Counter unavailable');return r.json()})
+  .then(function(d){display(d.value)})
+  .catch(function(){
+    fetch(BASE+'get/'+KEY,{cache:'no-store'})
+      .then(function(r){if(!r.ok)throw new Error('Counter unavailable');return r.json()})
+      .then(function(d){display(d.value)})
+      .catch(function(){});
+  });
 })();
 </script>
 </body></html>
