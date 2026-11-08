@@ -151,6 +151,8 @@ a.map{display:inline-block;margin-top:10px;background:#a67c2c;color:#fff;text-de
 .back2.te{font-family:'Noto Sans Telugu',sans-serif;line-height:1.32}.back2.te .bt{font-family:'Noto Sans Telugu',sans-serif;font-size:1.5em;font-weight:600}
 #ui button,#ui .map{font-size:14px;padding:8px 13px;margin:3px}
 #ui #gl{font-size:17px;padding:10px 26px;margin:0 0 6px}
+
+#vc{position:fixed;left:12px;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:50;display:none;background:rgba(18,12,16,.8);border:1px solid #c9a24b;color:#e2c176;padding:6px 12px;border-radius:16px;font-size:15px}
 </style><script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script></head><body>
 <div id="bg"></div><video id="cam" playsinline muted autoplay></video><div id="shade"></div>
 
@@ -184,7 +186,8 @@ a.map{display:inline-block;margin-top:10px;background:#a67c2c;color:#fff;text-de
 <div id="trk"></div>
 <div id="ui"><p id="hint">Point your camera at the QR on the printed card</p><div id="tap">🎵 Tap anywhere for music</div><button id="gl">📸 Engagement Photos</button><br><a class="map" id="loc" href="https://maps.app.goo.gl/TBWdatkebZfYRyfo6" target="_blank" rel="noopener" style="display:none">📍 Location</a><button id="fl">🔄 Flip card</button><button id="lg">తెలుగు / English</button><br><button id="fs">⛶ Full screen</button><button id="cal">📅 Calendar</button><button id="sh">📤 Share</button><button id="flip">Flip card</button><button id="mu">m</button><button id="rep">r</button></div>
 
-<div id="toast"></div><div id="gal"><div id="gh"><span>Our Engagement</span><a href="https://drive.google.com/drive/folders/1uYP6YJuMQEMgC5aeAeYMvybH6flwfJaB" target="_blank" rel="noopener">Open in Drive ↗</a><button id="gx">✕</button></div><div id="gg"></div></div><div id="lb"><button id="lx">✕</button><button id="lpv">‹</button><img id="li" alt=""><button id="lnx">›</button><div id="lc"></div></div>
+<div id="toast"></div>
+<div id="vc"></div><div id="gal"><div id="gh"><span>Our Engagement</span><a href="https://drive.google.com/drive/folders/1uYP6YJuMQEMgC5aeAeYMvybH6flwfJaB" target="_blank" rel="noopener">Open in Drive ↗</a><button id="gx">✕</button></div><div id="gg"></div></div><div id="lb"><button id="lx">✕</button><button id="lpv">‹</button><img id="li" alt=""><button id="lnx">›</button><div id="lc"></div></div>
 <script>
 var $=function(i){return document.getElementById(i)},card=$('card'),intro=$('intro'),stage=$('stage'),ui=$('ui');
 var target=new Date(2026,10,20,11,0,0);
@@ -350,5 +353,23 @@ var t0=performance.now();
 (function loop(t){var s=(t-t0)/1000;flipC+=(flipT-flipC)*.08;ox+=(tx-ox)*.1;oy+=(ty-oy)*.1;
  var ry=Math.sin(s*.8)*10+ox+gx,rx=Math.cos(s*.6)*4+oy+gy,fy=Math.sin(s*1.1)*8;
  card.style.transform='translateY('+fy+'px) rotateX('+rx+'deg) rotateY('+(ry+flipC)+'deg)';trk.style.setProperty('--px',(Math.sin(s*.8)*.6+gx/15+ox/40).toFixed(3));trk.style.setProperty('--py',(Math.cos(s*.6)*.4+gy/15+oy/20).toFixed(3));requestAnimationFrame(loop)})(t0);
+
+/* view counter: counts once per device; add ?stats to the invitation URL to see the total */
+(function(){
+ var NS='joseph-oliva-wedding-2026',
+     KEY='views',
+     URL='https://api.counterapi.dev/v1/'+NS+'/'+KEY,
+     seen=false;
+ try{seen=localStorage.getItem('viewed')}catch(e){}
+ fetch(URL+(seen?'':'/up'))
+  .then(function(r){return r.json()})
+  .then(function(d){
+    try{localStorage.setItem('viewed','1')}catch(e){}
+    if(location.search.indexOf('stats')>-1){
+      var b=$('vc');b.textContent='👁 '+d.count+' views';b.style.display='block';
+    }
+  })
+  ['catch'](function(){});
+})();
 </script>
 </body></html>
