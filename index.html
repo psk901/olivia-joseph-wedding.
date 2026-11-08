@@ -365,9 +365,7 @@ var t0=performance.now();
   .then(function(r){return r.json()})
   .then(function(d){
     try{localStorage.setItem('viewed','1')}catch(e){}
-    if(location.search.indexOf('stats')>-1){
-      var b=$('vc');b.textContent='👁 '+d.count+' views';b.style.display='block';
-    }
+    var b=$('vc');b.textContent='👁 '+d.count+' views';b.style.display='block';
   })
   ['catch'](function(){});
 })();
